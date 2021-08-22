@@ -1,0 +1,61 @@
+<?php
+  include("conn.php");
+?>
+
+<form action="" method="post">
+  <input type="text" name ="from" placeholder="Enter the place name"/>
+  <br/> 
+  <input type="text" name ="to" placeholder="Enter the place name"/>
+  <br/> 
+    <input type="number" name ="price" placeholder="Enter the price"/>
+   <br/> 
+   <input type="text" name ="openingtime" placeholder="Enter the time"/>
+  <br/> 
+  <input type="text" name ="closingtime" placeholder="Enter the time"/>
+  <br/> 
+  <input type="text" name ="contact" placeholder="Enter the contact"/>
+  <br/> 
+	<input type="submit" name ="submit" value="Save"/>
+	<input type="submit" name ="retrieve" value="Retrieve"/>
+</form>
+<?php
+  if(isset($_POST["submit"])){
+	    $from = $_POST['from'];
+	 	$to = $_POST['to'];
+   $price = $_POST['price'];
+    $openingtime = $_POST['openingtime'];
+   $closingtime = $_POST['closingtime'];
+    $contact = $_POST['contact'];
+		
+		$query= "INSERT INTO price_and_duration( from, to,price,openingtime,closingtime,contact)
+		VALUES ('$from','$to','$price','$openingtime','$closingtime','$contact')";
+		
+	 	$r = mysqli_query($conn, $query); 
+	    if(!$r){
+			echo "Failed ".mysqli_error($r);
+	 	}else{
+			echo "records saved";
+	 	}
+    }
+   if(isset($_POST['retrieve']))
+	   {
+	   $rqu = "SELECT * FROM price_and_duration;";
+	   $result = mysqli_query($conn,$rqu);
+	   ?>
+	   <table border="1">
+	     <tr>
+		    <th>FROM </th>
+			<th>to </th>
+			<th>price </th>
+			<th>openingtime </th>
+			<th>closingtime </th>
+			<th>contact </th>
+		</tr> 
+	   <?php
+	   while($r = mysqli_fetch_array($result))
+     {
+		   
+		    echo "<tr><td>".$r['FROM']."</td><td>".$r['TO']."</td><td>".$r['PRICE']."</td><td>".$r['OPENINGTIME']."</td><td>".$r['CLOSINGTIME']."</td><td>".$r['CONTACT']."<td></tr>";
+	        
+	   }
+	}
